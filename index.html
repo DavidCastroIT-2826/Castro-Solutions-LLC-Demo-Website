@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--page-->
+<title>David Castro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="David Castro is a computer science major at UTRGV in Edinburg, TX. Try two working software demos and get in touch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout concept: a black operating surface. Hairline-ruled bands, full-bleed
+   grainy photography, oversized light type, and small mono labels for data. */
+:root {
+  color-scheme: dark;
+  --black: #000000;
+  --ink: #0a0b0c;
+  --panel: #111315;
+  --line: #26292c;
+  --line-strong: #43474b;
+  --muted: #92979c;
+  --soft: #c3c7cb;
+  --white: #f4f5f6;
+  --display: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --gutter: clamp(16px, 4vw, 56px);
+  --band: clamp(72px, 10vw, 148px);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font: 400 17px/1.6 var(--display);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--black); }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3, p, dl, dd, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+h1, h2, h3 { font-weight: 300; text-wrap: balance; letter-spacing: -0.025em; }
+:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+
+.wrap {
+  max-width: 1480px;
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+.label {
+  font: 500 12px/1.4 var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Navigation */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: color-mix(in srgb, var(--black) 86%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+.brand { font-size: 16px; font-weight: 500; letter-spacing: 0.01em; text-decoration: none; white-space: nowrap; }
+.nav ul { display: flex; gap: clamp(14px, 2.6vw, 36px); }
+.nav li a {
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--soft);
+  padding-block: 10px;
+  display: block;
+  transition: color .15s;
+}
+.nav li a:hover { color: var(--white); }
+
+/* Hero */
+.hero { position: relative; isolation: isolate; border-bottom: 1px solid var(--line); overflow: hidden; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 60%; z-index: -2; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgb(0 0 0 / .78), rgb(0 0 0 / .18) 68%), linear-gradient(0deg, rgb(0 0 0 / .85), transparent 40%); }
+.hero .wrap { display: grid; gap: clamp(32px, 6vw, 84px); padding-block: clamp(84px, 13vw, 190px) clamp(28px, 4vw, 48px); }
+.hero h1 { font-size: clamp(44px, 8.2vw, 124px); line-height: .98; letter-spacing: -0.04em; max-width: 13ch; }
+.hero-foot { display: grid; grid-template-columns: minmax(0, 34rem) auto; gap: 24px 48px; align-items: end; justify-content: space-between; }
+.hero-foot p { font-size: clamp(18px, 1.7vw, 22px); line-height: 1.45; color: var(--soft); }
+.button {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 28px;
+  min-height: 52px; padding: 0 20px;
+  background: var(--white); color: var(--black);
+  font: 500 13px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+  white-space: nowrap; transition: background .15s;
+}
+.button:hover { background: #fff; }
+.button span { transition: transform .2s; }
+.button:hover span { transform: translateX(4px); }
+
+/* Section heads */
+.band { padding-block: var(--band); border-bottom: 1px solid var(--line); }
+.head { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 4fr); gap: 16px 32px; margin-bottom: clamp(36px, 5vw, 72px); }
+.head h2 { font-size: clamp(32px, 4.8vw, 68px); line-height: 1.06; max-width: 19ch; }
+.head .label { padding-top: .8em; }
+
+/* Capabilities */
+.cap-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.cap { background: var(--black); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.cap figure { margin: 0; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); }
+.cap img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s; filter: brightness(.82); }
+.cap:hover img { transform: scale(1.035); filter: brightness(1); }
+.cap-body { padding: clamp(20px, 2.2vw, 32px); display: grid; gap: 12px; align-content: start; }
+.cap h3 { font-size: clamp(24px, 2.3vw, 32px); line-height: 1.15; font-weight: 400; }
+.cap p { color: var(--muted); max-width: 42ch; }
+
+/* Demo console */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--line-strong); overflow-x: auto; scrollbar-width: none; }
+.tab {
+  appearance: none; background: none; border: 0; border-bottom: 2px solid transparent;
+  color: var(--muted); padding: 14px 20px 14px 0; margin-right: 22px; cursor: pointer; white-space: nowrap;
+  font: 500 13px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase;
+}
+.tab:hover { color: var(--white); }
+.tab[aria-selected="true"] { color: var(--white); border-bottom-color: var(--white); }
+.panel { background: var(--ink); border: 1px solid var(--line); border-top: 0; }
+.panel-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 14px clamp(14px, 2vw, 24px); border-bottom: 1px solid var(--line); }
+.sample { font: 500 11px/1.4 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--soft); border: 1px solid var(--line-strong); padding: 4px 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  appearance: none; background: transparent; color: var(--soft); border: 1px solid var(--line-strong);
+  padding: 7px 11px; font: 500 12px/1 var(--mono); cursor: pointer; transition: background .12s, color .12s;
+}
+.chip:hover { border-color: var(--muted); color: var(--white); }
+.chip[aria-pressed="true"] { background: var(--white); color: var(--black); border-color: var(--white); }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.kpi { padding: clamp(14px, 2vw, 24px); border-right: 1px solid var(--line); min-width: 0; }
+.kpi:last-child { border-right: 0; }
+.kpi b { display: block; font-weight: 300; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; margin-top: 6px; }
+.console-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); }
+.chart-pane { padding: clamp(14px, 2vw, 24px); border-right: 1px solid var(--line); min-width: 0; }
+.bars { display: grid; gap: 4px; margin-top: 14px; }
+.bar-row {
+  display: grid; grid-template-columns: 76px minmax(0, 1fr) 24px; gap: 10px; align-items: center;
+  width: 100%; padding: 7px 0; border: 0; background: none; color: var(--soft); cursor: pointer; text-align: left;
+  font: 400 12px/1 var(--mono); position: relative;
+}
+.bar-track { height: 14px; display: flex; align-items: stretch; }
+.bar-fill { background: var(--line-strong); border-radius: 0 3px 3px 0; min-width: 2px; transition: width .3s cubic-bezier(.2,.7,.2,1), background .15s; }
+.bar-row:hover .bar-fill { background: var(--muted); }
+.bar-row[aria-pressed="true"] { color: var(--white); }
+.bar-row[aria-pressed="true"] .bar-fill { background: var(--white); }
+.bar-row .n { text-align: right; font-variant-numeric: tabular-nums; }
+.table-pane { min-width: 0; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font: 400 13px/1.3 var(--mono); font-variant-numeric: tabular-nums; }
+th { text-align: left; font-weight: 500; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); position: sticky; top: 0; background: var(--ink); }
+th, td { padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { color: var(--soft); }
+td.num, th.num { text-align: right; }
+tbody tr:last-child td { border-bottom: 0; }
+.scroller { max-height: 342px; overflow-y: auto; }
+.status { display: inline-flex; align-items: center; gap: 7px; color: var(--white); }
+.status i { width: 9px; height: 9px; display: inline-block; border: 1.5px solid var(--white); border-radius: 50%; }
+.status.done i { background: var(--white); }
+.status.active i { background: linear-gradient(90deg, var(--white) 50%, transparent 50%); }
+.status.open { color: var(--soft); }
+
+/* Graph */
+.graph-grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+.graph-stage { overflow-x: auto; border-right: 1px solid var(--line); min-width: 0; }
+.graph-stage svg { display: block; width: 100%; height: auto; }
+.edge { stroke: var(--line-strong); stroke-width: 1; transition: stroke .15s, opacity .15s; }
+.edge.on { stroke: var(--white); stroke-width: 1.5; }
+.edge.off { opacity: .28; }
+.node { cursor: pointer; transition: opacity .15s; }
+.node.off { opacity: .32; }
+.node .shape { fill: var(--panel); stroke: var(--muted); stroke-width: 1.25; transition: fill .15s, stroke .15s; }
+.node:hover .shape { stroke: var(--white); }
+.node.sel .shape { fill: var(--white); stroke: var(--white); }
+.node .glyph { fill: var(--soft); font: 500 11px var(--mono); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node.sel .glyph { fill: var(--black); }
+.node .name { fill: var(--white); font: 400 12px var(--display); text-anchor: middle; }
+.node:focus-visible { outline: none; }
+.node:focus-visible .shape { stroke: var(--white); stroke-width: 2.5; }
+.inspector { padding: clamp(16px, 2vw, 26px); display: grid; gap: 16px; align-content: start; min-width: 0; }
+.inspector h3 { font-size: 26px; line-height: 1.15; font-weight: 400; }
+.props { display: grid; font: 400 13px/1.35 var(--mono); }
+.props div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); }
+.props dt { color: var(--muted); }
+.props dd { text-align: right; overflow-wrap: anywhere; }
+.links-list { display: grid; gap: 6px; }
+.links-list button { width: 100%; text-align: left; appearance: none; background: none; border: 1px solid var(--line); color: var(--soft); padding: 9px 11px; font: 400 13px/1.3 var(--display); cursor: pointer; }
+.links-list button:hover { border-color: var(--muted); color: var(--white); }
+.note { font-size: 15px; color: var(--muted); margin-top: 18px; max-width: 72ch; }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: stretch; }
+.about-img { margin: 0; min-height: 100%; background: var(--ink); }
+.about-img img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
+.about-copy { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-width: 0; }
+.about-copy h2 { font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: -.04em; margin-top: 18px; }
+.about-copy .lede { font-size: clamp(20px, 2.1vw, 28px); line-height: 1.38; color: var(--soft); max-width: 30em; margin-top: 28px; font-weight: 300; }
+.facts { display: grid; }
+.facts div { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(0, 3fr); gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+.facts div:last-child { border-bottom: 1px solid var(--line); }
+.facts dd { font-size: 18px; }
+
+/* Contact */
+.contact { position: relative; isolation: isolate; overflow: hidden; }
+.contact > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; z-index: -2; }
+.contact::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, #000 12%, rgb(0 0 0 / .72)); }
+.contact .wrap { padding-block: var(--band) clamp(40px, 5vw, 72px); }
+.contact h2 { font-size: clamp(40px, 6.6vw, 96px); line-height: 1; letter-spacing: -.04em; max-width: 12ch; margin-block: 18px clamp(40px, 6vw, 80px); }
+.ways { display: grid; border-top: 1px solid var(--line-strong); }
+.way { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(0, 5fr) 190px; gap: 8px 24px; align-items: center; padding-block: clamp(18px, 2.4vw, 30px); border-bottom: 1px solid var(--line-strong); }
+.way a.big {
+  font-size: clamp(22px, 4.1vw, 56px); font-weight: 300; letter-spacing: -.025em; line-height: 1.12;
+  text-decoration: none; overflow-wrap: anywhere; min-width: 0; justify-self: start;
+  background: linear-gradient(var(--white), var(--white)) 0 100% / 0 1px no-repeat; transition: background-size .3s;
+}
+.way a.big:hover { background-size: 100% 1px; }
+.way-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.act {
+  appearance: none; background: rgb(0 0 0 / .35); color: var(--white); border: 1px solid var(--line-strong);
+  min-height: 40px; padding: 0 13px; display: inline-flex; align-items: center;
+  font: 500 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.act:hover { background: var(--white); color: var(--black); }
+footer { border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 22px; }
+
+@media (max-width: 960px) {
+  .cap-grid { grid-template-columns: minmax(0, 1fr); }
+  .cap { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); grid-template-rows: auto; }
+  .cap figure { aspect-ratio: auto; min-height: 200px; }
+  .console-grid, .graph-grid, .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .chart-pane { border-right: 0; border-bottom: 1px solid var(--line); }
+  .graph-stage { border-right: 0; border-bottom: 1px solid var(--line); }
+  .about-img img { aspect-ratio: 16 / 11; object-position: 50% 62%; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .nav li.opt { display: none; }
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .head .label { padding-top: 0; }
+  .hero-foot { grid-template-columns: minmax(0, 1fr); }
+  .button { justify-self: start; }
+  .cap { grid-template-columns: minmax(0, 1fr); }
+  .cap figure { aspect-ratio: 16 / 9; min-height: 0; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(2) { border-right: 0; }
+  .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .way { grid-template-columns: minmax(0, 1fr); }
+  .way-actions { justify-content: flex-start; }
+  table { min-width: 0; }
+  th:nth-child(3), td:nth-child(3) { display: none; }
+  th, td { padding-inline: 10px; }
+  .graph-stage svg { min-width: 620px; }
+  .facts div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+<!--/page-->
+</head>
+<body>
+<!--page-->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">David Castro</a>
+    <nav aria-label="Main">
+      <ul>
+        <li class="opt"><a href="#build">Build</a></li>
+        <li><a href="#demos">Demos</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <img src="images/hero.jpg" alt="Tall dark slabs standing in fog, lit from behind by a soft white glow" width="2000" height="1120" fetchpriority="high">
+    <div class="wrap">
+      <h1>Software that makes sense of messy data.</h1>
+      <div class="hero-foot">
+        <p>I'm David Castro, a computer science major at UTRGV. This site is a preview of what I can build for you, and the demos below run right on the page.</p>
+        <a class="button" href="#demos">Try the demos <span aria-hidden="true">&darr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="build">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">What I build</p>
+        <h2>Tools and sites your business can use every day.</h2>
+      </div>
+      <div class="cap-grid">
+        <article class="cap">
+          <figure><img src="images/circuit.jpg" alt="Close-up of a computer chip surrounded by routed circuit traces" width="1500" height="1000" loading="lazy"></figure>
+          <div class="cap-body">
+            <h3>Websites</h3>
+            <p>Fast, clean sites that explain what you do and make it easy for customers to reach you, on a phone or a desktop.</p>
+          </div>
+        </article>
+        <article class="cap">
+          <figure><img src="images/terrain.jpg" alt="Terrain of peaks and valleys drawn from thin glowing lines" width="1500" height="1000" loading="lazy"></figure>
+          <div class="cap-body">
+            <h3>Dashboards</h3>
+            <p>A single screen for the numbers you check every day, with filters that answer the next question.</p>
+          </div>
+        </article>
+        <article class="cap">
+          <figure><img src="images/aisle.jpg" alt="Long aisle of server racks with rows of small lights fading into the distance" width="1500" height="1000" loading="lazy"></figure>
+          <div class="cap-body">
+            <h3>Data tools</h3>
+            <p>Internal software that connects scattered records, so you can see how customers, jobs and invoices relate.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="demos">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Live demos</p>
+        <h2>Click around. Everything here works.</h2>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Demos">
+        <button class="tab" role="tab" id="tab-console" aria-controls="pane-console" aria-selected="true">Operations</button>
+        <button class="tab" role="tab" id="tab-graph" aria-controls="pane-graph" aria-selected="false">Relationships</button>
+      </div>
+
+      <div class="panel" role="tabpanel" id="pane-console" aria-labelledby="tab-console">
+        <div class="panel-bar">
+          <div class="chips" id="status-filter" role="group" aria-label="Filter by status"></div>
+          <span class="sample">Sample data &middot; fictional company</span>
+        </div>
+        <div class="kpis" id="kpis" aria-live="polite"></div>
+        <div class="console-grid">
+          <div class="chart-pane">
+            <p class="label">Jobs by city</p>
+            <div class="bars" id="bars" role="group" aria-label="Filter by city"></div>
+          </div>
+          <div class="table-pane">
+            <div class="scroller" tabindex="0" role="region" aria-label="Job list">
+              <table>
+                <thead><tr><th>Job</th><th>City</th><th>Type</th><th>Status</th><th class="num">Hours</th></tr></thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="pane-graph" aria-labelledby="tab-graph" hidden>
+        <div class="panel-bar">
+          <p class="label">Select any record to see what it connects to</p>
+          <span class="sample">Sample data &middot; fictional company</span>
+        </div>
+        <div class="graph-grid">
+          <div class="graph-stage" tabindex="0" role="region" aria-label="Record graph">
+            <svg id="graph" viewBox="0 0 760 500" role="group" aria-label="Connected customer, job, invoice, crew and vehicle records"></svg>
+          </div>
+          <aside class="inspector" id="inspector" aria-live="polite"></aside>
+        </div>
+      </div>
+      <p class="note">Both demos use made-up records from a made-up field service company. A real version would connect to your own data.</p>
+    </div>
+  </section>
+
+  <section class="band" id="about">
+    <div class="wrap about-grid">
+      <figure class="about-img">
+        <img src="images/valley.jpg" alt="Palm trees in silhouette against a low glowing sky at dusk" width="1200" height="1500" loading="lazy">
+      </figure>
+      <div class="about-copy">
+        <div>
+          <p class="label">About me</p>
+          <h2>David Castro</h2>
+          <p class="lede">I'm a computer science major at UTRGV, based in Edinburg, Texas. I'm taking on client projects and would like to hear about yours.</p>
+        </div>
+        <dl class="facts">
+          <div><dt class="label">Based in</dt><dd>Edinburg, TX</dd></div>
+          <div><dt class="label">Studying</dt><dd>Computer Science, UTRGV</dd></div>
+          <div><dt class="label">Reach me</dt><dd><a href="#contact">Call or email</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <img src="images/aisle.jpg" alt="" loading="lazy" width="1500" height="1000">
+    <div class="wrap">
+      <p class="label">Contact</p>
+      <h2>Tell me what you need built.</h2>
+      <div class="ways">
+        <div class="way">
+          <span class="label">Phone</span>
+          <a class="big" href="tel:+19563755921">(956) 375-5921</a>
+          <div class="way-actions">
+            <a class="act" href="tel:+19563755921">Call</a>
+            <a class="act" href="sms:+19563755921">Text</a>
+            <button class="act" type="button" data-copy="9563755921">Copy</button>
+          </div>
+        </div>
+        <div class="way">
+          <span class="label">Email</span>
+          <a class="big" href="mailto:davidcastrojr28@gmail.com">davidcastrojr28@gmail.com</a>
+          <div class="way-actions">
+            <a class="act" href="mailto:davidcastrojr28@gmail.com">Email</a>
+            <button class="act" type="button" data-copy="davidcastrojr28@gmail.com">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">David Castro</span>
+    <span class="label">Edinburg, TX</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ---------- Tabs ---------- */
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  function selectTab(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { selectTab(t); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      selectTab(next); next.focus();
+    });
+  });
+  selectTab(tabs[0]);
+
+  /* ---------- Operations console (fictional data) ---------- */
+  var CITIES = ['Edinburg', 'McAllen', 'Mission', 'Pharr', 'Weslaco'];
+  var STATUSES = ['Open', 'In progress', 'Done'];
+  var JOBS = [
+    ['J-1042','Edinburg','AC repair','Done',3.5],['J-1043','McAllen','Inspection','Done',1.5],
+    ['J-1044','Pharr','Install','In progress',6],['J-1045','Edinburg','Install','In progress',7.5],
+    ['J-1046','Mission','AC repair','Done',2.5],['J-1047','Weslaco','Maintenance','Open',2],
+    ['J-1048','McAllen','AC repair','In progress',4],['J-1049','McAllen','Install','Done',8],
+    ['J-1050','Edinburg','Inspection','Open',1],['J-1051','Pharr','Maintenance','Done',2],
+    ['J-1052','Mission','Install','Open',6.5],['J-1053','Edinburg','Maintenance','Done',2.5],
+    ['J-1054','McAllen','Maintenance','Open',2],['J-1055','Weslaco','AC repair','Done',3],
+    ['J-1056','Edinburg','AC repair','Open',3],['J-1057','Pharr','AC repair','In progress',4.5],
+    ['J-1058','McAllen','Inspection','Done',1],['J-1059','Mission','Maintenance','In progress',2.5],
+    ['J-1060','Edinburg','Install','Done',9],['J-1061','McAllen','AC repair','Open',3.5],
+    ['J-1062','Weslaco','Inspection','Done',1.5],['J-1063','Edinburg','Inspection','In progress',1.5]
+  ].map(function (r) { return { id: r[0], city: r[1], type: r[2], status: r[3], hours: r[4] }; });
+
+  var state = { status: 'All', city: null };
+  var filterEl = document.getElementById('status-filter');
+  var barsEl = document.getElementById('bars');
+  var kpisEl = document.getElementById('kpis');
+  var rowsEl = document.getElementById('rows');
+
+  ['All'].concat(STATUSES).forEach(function (s) {
+    var b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = s; b.dataset.status = s;
+    b.addEventListener('click', function () { state.status = s; render(); });
+    filterEl.appendChild(b);
+  });
+  CITIES.forEach(function (c) {
+    var b = document.createElement('button');
+    b.className = 'bar-row'; b.type = 'button'; b.dataset.city = c;
+    b.innerHTML = '<span>' + c + '</span><span class="bar-track"><span class="bar-fill"></span></span><span class="n"></span>';
+    b.addEventListener('click', function () { state.city = state.city === c ? null : c; render(); });
+    barsEl.appendChild(b);
+  });
+
+  function render() {
+    var byStatus = JOBS.filter(function (j) { return state.status === 'All' || j.status === state.status; });
+    var shown = byStatus.filter(function (j) { return !state.city || j.city === state.city; });
+    var inCity = JOBS.filter(function (j) { return !state.city || j.city === state.city; });
+    var done = inCity.filter(function (j) { return j.status === 'Done'; }).length;
+    var hours = shown.reduce(function (a, j) { return a + j.hours; }, 0);
+    var kpis = [
+      ['Jobs shown', shown.length],
+      ['Open', shown.filter(function (j) { return j.status === 'Open'; }).length],
+      ['Crew hours', hours % 1 ? hours.toFixed(1) : hours],
+      ['Completion', inCity.length ? Math.round(done / inCity.length * 100) + '%' : '0%']
+    ];
+    kpisEl.innerHTML = kpis.map(function (k) {
+      return '<div class="kpi"><span class="label">' + k[0] + '</span><b>' + k[1] + '</b></div>';
+    }).join('');
+
+    var counts = CITIES.map(function (c) { return byStatus.filter(function (j) { return j.city === c; }).length; });
+    var max = Math.max.apply(null, counts.concat(1));
+    [].forEach.call(barsEl.children, function (b, i) {
+      b.setAttribute('aria-pressed', state.city === CITIES[i]);
+      b.setAttribute('aria-label', CITIES[i] + ', ' + counts[i] + ' jobs');
+      b.title = CITIES[i] + ': ' + counts[i] + (counts[i] === 1 ? ' job' : ' jobs') + '. Click to filter.';
+      b.querySelector('.bar-fill').style.width = (counts[i] / max * 100) + '%';
+      b.querySelector('.n').textContent = counts[i];
+    });
+    [].forEach.call(filterEl.children, function (b) {
+      b.setAttribute('aria-pressed', b.dataset.status === state.status);
+    });
+    var cls = { 'Open': 'open', 'In progress': 'active', 'Done': 'done' };
+    rowsEl.innerHTML = shown.map(function (j) {
+      return '<tr><td>' + j.id + '</td><td>' + j.city + '</td><td>' + j.type + '</td><td><span class="status ' + cls[j.status] + '"><i></i>' + j.status + '</span></td><td class="num">' + j.hours.toFixed(1) + '</td></tr>';
+    }).join('') || '<tr><td colspan="5">No jobs match these filters. Select All to see every job.</td></tr>';
+  }
+  render();
+
+  /* ---------- Relationship explorer (fictional data) ---------- */
+  var KINDS = { customer: 'Customer', job: 'Job', invoice: 'Invoice', crew: 'Crew', vehicle: 'Vehicle' };
+  var NODES = [
+    { id: 'c1', kind: 'customer', name: 'Rio Palms Clinic', x: 150, y: 110, p: { City: 'Edinburg', Since: '2023', 'Open jobs': '1' } },
+    { id: 'c2', kind: 'customer', name: 'Valley Citrus Co.', x: 150, y: 390, p: { City: 'Mission', Since: '2024', 'Open jobs': '1' } },
+    { id: 'j1', kind: 'job', name: 'J-1045 Install', x: 330, y: 70, p: { Status: 'In progress', Hours: '7.5', City: 'Edinburg' } },
+    { id: 'j2', kind: 'job', name: 'J-1053 Maintenance', x: 330, y: 215, p: { Status: 'Done', Hours: '2.5', City: 'Edinburg' } },
+    { id: 'j3', kind: 'job', name: 'J-1052 Install', x: 330, y: 400, p: { Status: 'Open', Hours: '6.5', City: 'Mission' } },
+    { id: 'i1', kind: 'invoice', name: 'INV-208', x: 150, y: 250, p: { Amount: '$640', Status: 'Paid', Job: 'J-1053' } },
+    { id: 'i2', kind: 'invoice', name: 'INV-214', x: 520, y: 450, p: { Amount: '$3,150', Status: 'Draft', Job: 'J-1052' } },
+    { id: 'k1', kind: 'crew', name: 'Crew North', x: 530, y: 135, p: { Members: '3', 'Active jobs': '1', Base: 'Edinburg' } },
+    { id: 'k2', kind: 'crew', name: 'Crew West', x: 530, y: 320, p: { Members: '4', 'Active jobs': '0', Base: 'Mission' } },
+    { id: 'v1', kind: 'vehicle', name: 'Van 12', x: 680, y: 70, p: { Status: 'On site', Service: 'Due in 900 mi', Crew: 'North' } },
+    { id: 'v2', kind: 'vehicle', name: 'Van 07', x: 680, y: 320, p: { Status: 'At base', Service: 'Current', Crew: 'West' } }
+  ];
+  var EDGES = [['c1','j1'],['c1','j2'],['c1','i1'],['j2','i1'],['c2','j3'],['j3','i2'],['j1','k1'],['j2','k1'],['j3','k2'],['k1','v1'],['k2','v2']];
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('graph');
+  var byId = {}; NODES.forEach(function (n) { byId[n.id] = n; });
+  var edgeEls = EDGES.map(function (e) {
+    var l = document.createElementNS(svgNS, 'line');
+    l.setAttribute('x1', byId[e[0]].x); l.setAttribute('y1', byId[e[0]].y);
+    l.setAttribute('x2', byId[e[1]].x); l.setAttribute('y2', byId[e[1]].y);
+    l.setAttribute('class', 'edge'); svg.appendChild(l);
+    return l;
+  });
+  /* Each record type gets its own shape, so type never depends on shading. */
+  function shape(kind) {
+    var s;
+    if (kind === 'customer') { s = document.createElementNS(svgNS, 'circle'); s.setAttribute('r', 22); }
+    else if (kind === 'job') { s = document.createElementNS(svgNS, 'rect'); s.setAttribute('x', -20); s.setAttribute('y', -20); s.setAttribute('width', 40); s.setAttribute('height', 40); }
+    else if (kind === 'invoice') { s = document.createElementNS(svgNS, 'polygon'); s.setAttribute('points', '0,-24 24,0 0,24 -24,0'); }
+    else if (kind === 'crew') { s = document.createElementNS(svgNS, 'polygon'); s.setAttribute('points', '-11,-21 11,-21 23,0 11,21 -11,21 -23,0'); }
+    else { s = document.createElementNS(svgNS, 'rect'); s.setAttribute('x', -22); s.setAttribute('y', -15); s.setAttribute('width', 44); s.setAttribute('height', 30); s.setAttribute('rx', 15); }
+    s.setAttribute('class', 'shape');
+    return s;
+  }
+  var nodeEls = {};
+  NODES.forEach(function (n) {
+    var g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('class', 'node'); g.setAttribute('transform', 'translate(' + n.x + ' ' + n.y + ')');
+    g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button');
+    g.setAttribute('aria-label', KINDS[n.kind] + ': ' + n.name);
+    g.appendChild(shape(n.kind));
+    var glyph = document.createElementNS(svgNS, 'text'); glyph.setAttribute('class', 'glyph'); glyph.textContent = KINDS[n.kind][0]; g.appendChild(glyph);
+    var label = document.createElementNS(svgNS, 'text'); label.setAttribute('class', 'name'); label.setAttribute('y', 42); label.textContent = n.name; g.appendChild(label);
+    g.addEventListener('click', function () { selectNode(n.id); });
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectNode(n.id); } });
+    svg.appendChild(g); nodeEls[n.id] = g;
+  });
+  var inspector = document.getElementById('inspector');
+  function selectNode(id) {
+    var n = byId[id], near = {}; near[id] = true;
+    EDGES.forEach(function (e, i) {
+      var on = e[0] === id || e[1] === id;
+      if (on) { near[e[0]] = true; near[e[1]] = true; }
+      edgeEls[i].setAttribute('class', 'edge ' + (on ? 'on' : 'off'));
+    });
+    NODES.forEach(function (m) {
+      nodeEls[m.id].setAttribute('class', 'node' + (m.id === id ? ' sel' : near[m.id] ? '' : ' off'));
+    });
+    var linked = NODES.filter(function (m) { return near[m.id] && m.id !== id; });
+    inspector.innerHTML = '<div><p class="label">' + KINDS[n.kind] + '</p><h3>' + n.name + '</h3></div>' +
+      '<dl class="props">' + Object.keys(n.p).map(function (k) { return '<div><dt>' + k + '</dt><dd>' + n.p[k] + '</dd></div>'; }).join('') + '</dl>' +
+      '<div><p class="label" style="margin-bottom:8px">Connected records (' + linked.length + ')</p><div class="links-list">' +
+      linked.map(function (m) { return '<button type="button" data-id="' + m.id + '">' + m.name + ' &middot; ' + KINDS[m.kind] + '</button>'; }).join('') + '</div></div>';
+    [].forEach.call(inspector.querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () { selectNode(b.dataset.id); });
+    });
+  }
+  selectNode('c1');
+
+  /* ---------- Copy buttons ---------- */
+  [].forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    var original = b.textContent, timer;
+    function flash(text) { b.textContent = text; clearTimeout(timer); timer = setTimeout(function () { b.textContent = original; }, 1800); }
+    b.addEventListener('click', function () {
+      var value = b.dataset.copy;
+      var p = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(value) : Promise.reject();
+      p.then(function () { flash('Copied'); }).catch(function () {
+        var big = b.closest('.way').querySelector('.big');
+        var range = document.createRange(); range.selectNodeContents(big);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        flash('Selected');
+      });
+    });
+  });
+})();
+</script>
+<!--/page-->
+</body>
+</html>
